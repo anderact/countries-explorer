@@ -4,15 +4,10 @@ const CountryList = dynamic(
   () => import("@/components/countries/country-list"),
   { ssr: false }
 );
-const CountrySearch = dynamic(
-  () => import("@/components/countries/country-search"),
-  { ssr: false }
-);
 
 export default function Home() {
   return (
-    <div className="space-y-4">
-      <CountrySearch />
+    <div className="space-y-4 mx-8 py-8">
       <CountryList />
     </div>
   );

@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -9,37 +8,51 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { Skeleton } from "@/components/ui/skeleton";
 import { GetCountriesQuery } from "../../generated/graphql";
+import { useCountryImage } from "@/features/countries/api/unsplash-api";
+import { useState } from "react";
+import NotFoundImage from "@/app/not-found.png";
 
 type Country = GetCountriesQuery["countries"][0];
 
 export default function CountryCard({ country }: { country: Country }) {
   const [isOpen, setIsOpen] = useState(false);
+  const { imageUrl, isLoading } = useCountryImage(country.name);
 
   return (
     <>
       <Card
-        className="overflow-hidden cursor-pointer"
+        className="overflow-hidden cursor-pointer rounded-[2.25rem] shadow-xl"
         onClick={() => setIsOpen(true)}
       >
-        <Image
-          src="https://images.unsplash.com/photo-1611457194403-d3aca4cf9d11?q=80&w=1286&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-          alt={country.name}
-          width={400}
-          height={200}
-          className="w-full h-48 object-cover"
-        />
+        {isLoading ? (
+          <Skeleton className="w-full h-48" />
+        ) : (
+          <Image
+            src={imageUrl || NotFoundImage}
+            alt={country.name}
+            width={400}
+            height={200}
+            className="w-full h-48 object-cover hover:scale-110 transition-transform duration-700"
+          />
+        )}
         <CardContent className="p-4">
-          <div className="flex items-center gap-2 mb-2">
+          <div className="flex items-center gap-4 mb-2">
             <Image
-              src="https://images.unsplash.com/photo-1611457194403-d3aca4cf9d11?q=80&w=1286&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              src={`https://flagcdn.com/w40/${country.code.toLowerCase()}.png`}
               alt={`${country.name} flag`}
-              width={20}
-              height={15}
+              width={50}
+              height={25}
+              className="w-14 h-full object-cover"
             />
-            <h2 className="text-xl font-bold">{country.name}</h2>
+            <div>
+              <h2 className="text-xl font-bold text-blue-500">
+                {country.name}
+              </h2>
+              <p className="text-gray-600">{country.continent.name}</p>
+            </div>
           </div>
-          <p className="text-gray-600">{country.continent.name}</p>
         </CardContent>
       </Card>
 

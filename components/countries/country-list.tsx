@@ -2,23 +2,16 @@
 
 import { useCountries } from "@/features/countries/hooks/use-countries";
 import CountryCard from "./country-card";
-// import {
-//   Select,
-//   SelectContent,
-//   SelectItem,
-//   SelectTrigger,
-//   SelectValue,
-// } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
+import CountrySearchBar from "@/components/countries/country-search";
 
 export default function CountryList() {
   const {
     loading,
     error,
     countries,
-    // continents,
-    // selectedContinent,
-    // setSelectedContinent,
+    search,
+    setSearch,
     currentPage,
     setCurrentPage,
     totalPages,
@@ -27,21 +20,14 @@ export default function CountryList() {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
 
+  const handleSearch = (query: string) => {
+    setSearch(query);
+    setCurrentPage(1); // Reset to first page when searching
+  };
+
   return (
-    <div className="space-y-4">
-      {/* <Select value={selectedContinent} onValueChange={setSelectedContinent}>
-        <SelectTrigger className="w-[200px]">
-          <SelectValue placeholder="Filter by continent" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="">All Continents</SelectItem>
-          {continents.map((continent) => (
-            <SelectItem key={continent.code} value={continent.code}>
-              {continent.name}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select> */}
+    <div className="space-y-8">
+      <CountrySearchBar onSearch={handleSearch} initialSearch={search} />
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {countries.map((country) => (
           <CountryCard key={country.code} country={country} />
