@@ -1,5 +1,7 @@
+"use client";
+
 import { useState, useMemo } from "react";
-import { useGetCountriesQuery } from "@/generated/graphql";
+import { useGetCountriesQuery } from "../../../generated/graphql";
 
 export function useCountries() {
   const { loading, error, data } = useGetCountriesQuery();
@@ -9,7 +11,7 @@ export function useCountries() {
   const itemsPerPage = 9;
 
   const filteredCountries = useMemo(() => {
-    if (!data) return [];
+    if (!data?.countries) return [];
     return data.countries.filter((country) => {
       const matchesSearch = country.name
         .toLowerCase()

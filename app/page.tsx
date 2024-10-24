@@ -1,5 +1,13 @@
-import CountryList from "@/components/countries/country-list";
-import CountrySearch from "@/components/countries/country-search";
+import dynamic from "next/dynamic";
+
+const CountryList = dynamic(
+  () => import("@/components/countries/country-list"),
+  { ssr: false }
+);
+const CountrySearch = dynamic(
+  () => import("@/components/countries/country-search"),
+  { ssr: false }
+);
 
 export default function Home() {
   return (

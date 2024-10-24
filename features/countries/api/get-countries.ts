@@ -6,12 +6,10 @@ export const GET_COUNTRIES = gql`
       code
       name
       capital
-      languages {
-        code
-        name
-        native
-      }
       currency
+      languages {
+        name
+      }
       states {
         name
       }

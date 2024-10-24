@@ -15,7 +15,7 @@ export default function CountrySearchBar() {
     <form onSubmit={handleSearch} className="flex gap-2">
       <Input
         type="text"
-        placeholder="Escripte el país que deseas ver"
+        placeholder="Escribe el país que deseas ver"
         value={search}
         onChange={(e) => setSearch(e.target.value)}
         className="flex-grow"

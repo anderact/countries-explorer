@@ -136,7 +136,7 @@ export type Subdivision = {
 export type GetCountriesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetCountriesQuery = { __typename?: 'Query', countries: Array<{ __typename?: 'Country', code: string, name: string, capital?: string | null, currency?: string | null, languages: Array<{ __typename?: 'Language', code: string, name: string, native: string }>, states: Array<{ __typename?: 'State', name: string }>, continent: { __typename?: 'Continent', code: string, name: string } }>, continents: Array<{ __typename?: 'Continent', code: string, name: string }> };
+export type GetCountriesQuery = { __typename?: 'Query', countries: Array<{ __typename?: 'Country', code: string, name: string, capital?: string | null, currency?: string | null, languages: Array<{ __typename?: 'Language', name: string }>, states: Array<{ __typename?: 'State', name: string }>, continent: { __typename?: 'Continent', code: string, name: string } }>, continents: Array<{ __typename?: 'Continent', code: string, name: string }> };
 
 
 export const GetCountriesDocument = gql`
@@ -145,12 +145,10 @@ export const GetCountriesDocument = gql`
     code
     name
     capital
-    languages {
-      code
-      name
-      native
-    }
     currency
+    languages {
+      name
+    }
     states {
       name
     }
