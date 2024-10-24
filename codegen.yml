@@ -1,0 +1,11 @@
+overwrite: true
+schema: "https://countries.trevorblades.com/"
+documents: "features/**/*.ts"
+generates:
+  ./generated/graphql.ts:
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-react-apollo"
+    config:
+      withHooks: true
