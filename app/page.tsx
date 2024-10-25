@@ -7,7 +7,7 @@ const CountryList = dynamic(
 
 export default function Home() {
   return (
-    <div className="space-y-4 mx-8 py-8">
+    <div className="mx-8 py-8">
       <CountryList />
     </div>
   );

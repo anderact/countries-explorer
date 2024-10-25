@@ -2,9 +2,10 @@
 
 import { useState } from "react";
 import { useCountries } from "@/features/countries/hooks/use-countries";
-import CountryCard from "./country-card";
+import CountryCard from "@/components/countries/country-card";
 import { Button } from "@/components/ui/button";
 import CountrySearchBar from "@/components/countries/country-search";
+import LoadingComponent from "@/components/layout/loading-custom";
 
 export default function CountryList() {
   const {
@@ -22,7 +23,7 @@ export default function CountryList() {
 
   const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <LoadingComponent />;
   if (error) return <p>Error: {error.message}</p>;
 
   const handleSearch = (query: string) => {

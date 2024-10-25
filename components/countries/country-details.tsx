@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 import Image from "next/image";
 import { X } from "lucide-react";
-import { GetCountriesQuery } from "../../generated/graphql";
+import { GetCountriesQuery } from "@/generated/graphql";
 import { Button } from "@/components/ui/button";
 import { useCountryImage } from "@/features/countries/api/unsplash-api";
 
@@ -45,7 +45,7 @@ export function CountryDetailsPanel({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-y-0 right-0 w-full sm:w-96 bg-white shadow-lg z-50 overflow-y-auto transition-transform duration-300 ease-in-out transform translate-x-0">
+    <div className="fixed inset-y-0 right-0 w-full sm:w-96 bg-white shadow-lg z-50 overflow-y-auto transform translate-x-0">
       <div ref={panelRef} className="h-full flex flex-col">
         <div className="flex-1 overflow-y-auto p-4 pl-8 space-y-4">
           <div className="flex gap-1">

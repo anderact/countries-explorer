@@ -4,10 +4,11 @@ import { useState } from "react";
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { GetCountriesQuery } from "../../generated/graphql";
+import { GetCountriesQuery } from "@/generated/graphql";
 import { useCountryImage } from "@/features/countries/api/unsplash-api";
 import NotFoundImage from "@/app/not-found.png";
 import { CountryDetailsPanel } from "@/components/countries/country-details";
+import { ImageOff } from "lucide-react";
 
 type Country = GetCountriesQuery["countries"][0];
 
@@ -27,24 +28,33 @@ export default function CountryCard({
 
   const handleClick = () => {
     setIsOpen(true);
-    if (onSelect) {
-      onSelect();
-    }
+    onSelect?.();
   };
 
   return (
     <>
       <Card
         className={`overflow-hidden cursor-pointer rounded-[2.25rem] shadow-xl ${
-          isSelected ? "ring-2 ring-blue-500" : ""
+          isSelected ? "ring-1 ring-blue-500" : ""
         }`}
         onClick={handleClick}
+        tabIndex={0}
       >
         {isLoading ? (
-          <Skeleton className="w-full h-48" />
+          <Skeleton className="w-full h-48 flex items-center justify-center animate-pulse">
+            <ImageOff size={20} />
+          </Skeleton>
+        ) : imageUrl ? (
+          <Image
+            src={imageUrl}
+            alt={country.name}
+            width={400}
+            height={200}
+            className="w-full h-48 object-cover hover:brightness-125 transition-all duration-500"
+          />
         ) : (
           <Image
-            src={imageUrl || NotFoundImage}
+            src={NotFoundImage}
             alt={country.name}
             width={400}
             height={200}

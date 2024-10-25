@@ -8,14 +8,14 @@ interface ContinentFilterProps {
   onClear: () => void;
 }
 
-const continentImages: { [key: string]: string } = {
-  AF: "svg//continents/af.svg",
-  AN: "svg//continents/an.svg",
-  AS: "svg//continents/as.svg",
-  EU: "svg//continents/eu.svg",
-  NA: "svg//continents/na.svg",
-  OC: "svg//continents/oc.svg",
-  SA: "svg//continents/sa.svg",
+const continentFlags: { [code: string]: string } = {
+  AF: "svg/continents/af.svg",
+  AN: "svg/continents/an.svg",
+  AS: "svg/continents/as.svg",
+  EU: "svg/continents/eu.svg",
+  NA: "svg/continents/na.svg",
+  OC: "svg/continents/oc.svg",
+  SA: "svg/continents/sa.svg",
 };
 
 export function ContinentFilter({
@@ -48,7 +48,7 @@ export function ContinentFilter({
             >
               <div className="w-16 h-16 relative">
                 <Image
-                  src={continentImages[continent.code] || "/placeholder.svg"}
+                  src={continentFlags[continent.code] || "/not-found.png"}
                   alt={continent.name}
                   layout="fill"
                   objectFit="contain"

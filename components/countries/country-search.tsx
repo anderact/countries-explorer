@@ -1,10 +1,10 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { Search } from "lucide-react";
-import { ContinentFilter } from "./continent-filter";
+import { ContinentFilter } from "@/components/countries/continent-filter";
 
 interface CountrySearchBarProps {
   onSearch: (query: string) => void;

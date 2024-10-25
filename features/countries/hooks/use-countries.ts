@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { useGetCountriesQuery } from "../../../generated/graphql";
+import { useGetCountriesQuery } from "@/generated/graphql";
 
 export function useCountries() {
   const { loading, error, data } = useGetCountriesQuery();

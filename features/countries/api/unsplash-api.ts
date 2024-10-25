@@ -32,14 +32,13 @@ export async function getCountryImage(countryName: string): Promise<string> {
     const data = await response.json();
     if (data.results && data.results.length > 0) {
       const imageUrl = data.results[0].urls.regular;
-      // Cache the result
       cache[countryName] = imageUrl;
       return imageUrl;
     }
     throw new Error("No images found");
   } catch (error) {
     console.error("Error fetching country image:", error);
-    return "https://images.unsplash.com/photo-1611457194403-d3aca4cf9d11?q=80&w=1286&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+    return "/not-found.png";
   }
 }
 
