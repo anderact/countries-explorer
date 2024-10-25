@@ -47,6 +47,7 @@ export default function CountrySearchBar({
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     onSearch(search);
+    setIsFilterOpen(false);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
