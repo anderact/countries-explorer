@@ -1,31 +1,61 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useState } from "react";
+import { Menu, X } from "lucide-react";
+
+const navItems = [
+  { name: "Home", href: "/" },
+  { name: "Vista 1", href: "/vista-1" },
+  { name: "Vista 2", href: "/vista-2" },
+];
 
 export default function Sidebar() {
+  const pathname = usePathname();
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
-    <div className="w-64 bg-gray-500 shadow-md">
-      <div className="bg-gray-300 m-4 p-4 text-center rounded-md">
-        <h1 className="text-2xl font-bold">Logo</h1>
+    <>
+      <button
+        className="fixed top-4 left-4 z-50 p-2 bg-gray-800 text-white rounded-md lg:hidden"
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        {isOpen ? <X size={24} /> : <Menu size={24} />}
+      </button>
+
+      <div
+        className={`fixed inset-y-0 left-0 transform ${
+          isOpen ? "translate-x-0" : "-translate-x-full"
+        } lg:translate-x-0 transition duration-200 ease-in-out z-30 w-64 bg-gray-800 overflow-y-auto lg:static lg:inset-0`}
+      >
+        <div className="p-6">
+          <h1 className="text-2xl font-bold text-white mb-6">Logo</h1>
+          <nav>
+            {navItems.map((item) => (
+              <Link
+                key={item.name}
+                href={item.href}
+                className={`block py-2 px-4 rounded-md transition duration-200 ${
+                  pathname === item.href
+                    ? "bg-white text-gray-800"
+                    : "text-white hover:bg-gray-700"
+                }`}
+                onClick={() => setIsOpen(false)}
+              >
+                {item.name}
+              </Link>
+            ))}
+          </nav>
+        </div>
       </div>
-      <nav className="mt-4">
-        <Link
-          href="/"
-          className="block py-2 px-4 text-gray-500 hover:bg-gray-200 text-center m-4 p-4 bg-white rounded-md font-bold text-xl"
-        >
-          Home
-        </Link>
-        <Link
-          href="/vista-1"
-          className="block py-2 px-4 text-gray-500 hover:bg-gray-200 text-center m-4 p-4 bg-white rounded-md font-bold text-xl"
-        >
-          Vista 1
-        </Link>
-        <Link
-          href="/vista-2"
-          className="block py-2 px-4 text-gray-500 hover:bg-gray-200 text-center m-4 p-4 bg-white rounded-md font-bold text-xl"
-        >
-          Vista 2
-        </Link>
-      </nav>
-    </div>
+
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 z-20 lg:hidden"
+          onClick={() => setIsOpen(false)}
+        ></div>
+      )}
+    </>
   );
 }

@@ -17,7 +17,7 @@ export function useCountries() {
         .toLowerCase()
         .includes(search.toLowerCase());
       const matchesContinent = selectedContinent
-        ? country.continent.code === selectedContinent
+        ? selectedContinent.split(",").includes(country.continent.code)
         : true;
       return matchesSearch && matchesContinent;
     });

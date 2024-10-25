@@ -1,30 +1,44 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
 import { Skeleton } from "@/components/ui/skeleton";
 import { GetCountriesQuery } from "../../generated/graphql";
 import { useCountryImage } from "@/features/countries/api/unsplash-api";
-import { useState } from "react";
 import NotFoundImage from "@/app/not-found.png";
+import { CountryDetailsPanel } from "@/components/countries/country-details";
 
 type Country = GetCountriesQuery["countries"][0];
 
-export default function CountryCard({ country }: { country: Country }) {
+interface CountryCardProps {
+  country: Country;
+  isSelected?: boolean;
+  onSelect?: () => void;
+}
+
+export default function CountryCard({
+  country,
+  isSelected,
+  onSelect,
+}: CountryCardProps) {
   const [isOpen, setIsOpen] = useState(false);
   const { imageUrl, isLoading } = useCountryImage(country.name);
+
+  const handleClick = () => {
+    setIsOpen(true);
+    if (onSelect) {
+      onSelect();
+    }
+  };
 
   return (
     <>
       <Card
-        className="overflow-hidden cursor-pointer rounded-[2.25rem] shadow-xl"
-        onClick={() => setIsOpen(true)}
+        className={`overflow-hidden cursor-pointer rounded-[2.25rem] shadow-xl ${
+          isSelected ? "ring-2 ring-blue-500" : ""
+        }`}
+        onClick={handleClick}
       >
         {isLoading ? (
           <Skeleton className="w-full h-48" />
@@ -34,7 +48,7 @@ export default function CountryCard({ country }: { country: Country }) {
             alt={country.name}
             width={400}
             height={200}
-            className="w-full h-48 object-cover hover:scale-110 transition-transform duration-700"
+            className="w-full h-48 object-cover"
           />
         )}
         <CardContent className="p-4">
@@ -56,35 +70,11 @@ export default function CountryCard({ country }: { country: Country }) {
         </CardContent>
       </Card>
 
-      <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>{country.name}</DialogTitle>
-          </DialogHeader>
-          <div className="space-y-2">
-            <p>
-              <strong>Capital:</strong> {country.capital}
-            </p>
-            <p>
-              <strong>Currency:</strong> {country.currency}
-            </p>
-            <p>
-              <strong>Languages:</strong>{" "}
-              {country.languages.map((lang) => lang.name).join(", ")}
-            </p>
-            {country.states && country.states.length > 0 && (
-              <div>
-                <strong>States:</strong>
-                <ul className="list-disc list-inside">
-                  {country.states.map((state) => (
-                    <li key={state.name}>{state.name}</li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </div>
-        </DialogContent>
-      </Dialog>
+      <CountryDetailsPanel
+        country={country}
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+      />
     </>
   );
 }
